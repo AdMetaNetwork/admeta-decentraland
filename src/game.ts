@@ -1,23 +1,25 @@
 /// --- Set up a system ---
 
-class RotatorSystem {
-  // this group will contain every entity that has a Transform component
-  group = engine.getComponentGroup(Transform);
-
+export class TextureUpdater implements ISystem {
+  static cnt = 0;
+  group = engine.getComponentGroup(Material);
   update(dt: number) {
-    // iterate over the entities of the group
-    for (let entity of this.group.entities) {
-      // get the Transform component of the entity
-      const transform = entity.getComponent(Transform);
+    TextureUpdater.cnt++;
+    // Update texture every 2 sec (FPS 30)
+    if (TextureUpdater.cnt === 60) {
+      TextureUpdater.cnt = 0;
 
-      // mutate the rotation
-      transform.rotate(Vector3.Up(), dt * 10);
+      // iterate over the entities of the group
+      for (let entity of this.group.entities) {
+        const myTexture = new Texture(
+          "http://localhost:3000/_next/image?url=https%3A%2F%2Fipfs.fleek.co%2Fipfs%2Fbafybeihb4adk45udjpnymx55msypjuxptcraokavywzxm5ouc5h4phvn2i&w=3840&q=75"
+        );
+        entity.getComponent(Material).albedoTexture = myTexture;
+      }
     }
   }
 }
-
-// Add a new instance of the system to the engine
-// engine.addSystem(new RotatorSystem())
+engine.addSystem(new TextureUpdater());
 
 /// --- Spawner function ---
 
@@ -58,12 +60,8 @@ function spawnCube(x: number, y: number, z: number) {
 /// --- Spawn a cube ---
 
 const cube = spawnCube(8, 3, 8);
-
 cube.addComponent(
   new OnClick(() => {
-    cube.getComponent(Transform).scale.z *= 1.1;
-    cube.getComponent(Transform).scale.x *= 0.9;
-
-    spawnCube(Math.random() * 8 + 1, Math.random() * 8, Math.random() * 8 + 1);
+    openExternalURL("https://admeta.network");
   })
 );
