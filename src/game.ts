@@ -12,7 +12,7 @@ export class TextureUpdater implements ISystem {
       // iterate over the entities of the group
       for (let entity of this.group.entities) {
         const myTexture = new Texture(
-          "http://localhost:3000/_next/image?url=https%3A%2F%2Fipfs.fleek.co%2Fipfs%2Fbafybeihb4adk45udjpnymx55msypjuxptcraokavywzxm5ouc5h4phvn2i&w=3840&q=75"
+          "https://raw.githubusercontent.com/h4n0/gists/master/admeta/admeta_sample_ad.jpeg"
         );
         entity.getComponent(Material).albedoTexture = myTexture;
       }
@@ -59,7 +59,7 @@ function spawnCube(x: number, y: number, z: number) {
 
 /// --- Spawn a cube ---
 
-const cube = spawnCube(8, 3, 14);
+const cube = spawnCube(8, 3, 11);
 cube.addComponent(
   new OnClick(() => {
     openExternalURL("https://admeta.network");
