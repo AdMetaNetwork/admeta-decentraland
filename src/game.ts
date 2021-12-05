@@ -59,7 +59,7 @@ function spawnCube(x: number, y: number, z: number) {
 
 /// --- Spawn a cube ---
 
-const cube = spawnCube(8, 3, 8);
+const cube = spawnCube(8, 3, 14);
 cube.addComponent(
   new OnClick(() => {
     openExternalURL("https://admeta.network");
