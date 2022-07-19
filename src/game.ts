@@ -2,24 +2,60 @@
 
 export class TextureUpdater implements ISystem {
   static cnt = 0;
+  static adimg = ''
   group = engine.getComponentGroup(Material);
   update(dt: number) {
     TextureUpdater.cnt++;
     // Update texture every 2 sec (FPS 30)
     if (TextureUpdater.cnt === 60) {
       TextureUpdater.cnt = 0;
-
       // iterate over the entities of the group
       for (let entity of this.group.entities) {
-        const myTexture = new Texture(
-          "https://raw.githubusercontent.com/h4n0/gists/master/admeta/admeta_sample_ad.jpeg"
-        );
-        entity.getComponent(Material).albedoTexture = myTexture;
+        if (!TextureUpdater.adimg) {
+          executeTask(async () => {
+            try {
+              let response = await fetch('http://168.119.116.180:3002/api/getmb')
+              let json = await response.json()
+              log(json)
+              if (json.ad.length) {
+                const myTexture = new Texture(json.ad[json.ad.length - 1].adimg);
+                entity.getComponent(Material).albedoTexture = myTexture;
+                TextureUpdater.adimg = json.ad[json.ad.length - 1].adimg;
+                entity.addComponent(
+                  new OnPointerDown(() => {
+                    openExternalURL(json.ad[json.ad.length - 1].adurl);
+                  })
+                );
+              } else {
+                const myTexture = new Texture(
+                  "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg"
+                );
+                TextureUpdater.adimg = "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg";
+                entity.getComponent(Material).albedoTexture = myTexture;
+                entity.addComponent(
+                  new OnPointerDown(() => {
+                    openExternalURL("https://admeta.network");
+                  })
+                );
+              }
+              
+            } catch {
+              log("failed to reach URL")
+            }
+          })
+        } else {
+          entity.addComponent(
+            new OnPointerDown(() => {
+              openExternalURL("https://admeta.network");
+            })
+          );
+        }
       }
     }
   }
 }
 engine.addSystem(new TextureUpdater());
+
 
 /// --- Spawner function ---
 
@@ -41,7 +77,7 @@ function spawnCube(x: number, y: number, z: number) {
 
   // Create texture
   const myTexture = new Texture(
-    "http://localhost:3000/_next/image?url=https%3A%2F%2Fipfs.fleek.co%2Fipfs%2Fbafybeihb4adk45udjpnymx55msypjuxptcraokavywzxm5ouc5h4phvn2i&w=3840&q=75"
+    "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg"
   );
 
   // Create a material
@@ -60,8 +96,8 @@ function spawnCube(x: number, y: number, z: number) {
 /// --- Spawn a cube ---
 
 const cube = spawnCube(8, 3, 11);
-cube.addComponent(
-  new OnClick(() => {
-    openExternalURL("https://admeta.network");
-  })
-);
+// cube.addComponent(
+//   new OnPointerDown(() => {
+//     openExternalURL("https://admeta.network");
+//   })
+// );
