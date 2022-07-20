@@ -16,14 +16,14 @@ export class TextureUpdater implements ISystem {
             try {
               let response = await fetch('http://168.119.116.180:3002/api/getmb')
               let json = await response.json()
-              log(json)
-              if (json.ad.length) {
-                const myTexture = new Texture(json.ad[json.ad.length - 1].adimg);
+              log(json, '---------json')
+              if (json.ad.adimg) {
+                const myTexture = new Texture(json.ad.adimg);
                 entity.getComponent(Material).albedoTexture = myTexture;
-                TextureUpdater.adimg = json.ad[json.ad.length - 1].adimg;
+                TextureUpdater.adimg = json.ad.adimg;
                 entity.addComponent(
                   new OnPointerDown(() => {
-                    openExternalURL(json.ad[json.ad.length - 1].adurl);
+                    openExternalURL(json.ad.adurl);
                   })
                 );
               } else {
