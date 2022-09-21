@@ -28,9 +28,9 @@ export class TextureUpdater implements ISystem {
                 );
               } else {
                 const myTexture = new Texture(
-                  "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg"
+                  "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/banner2.png"
                 );
-                TextureUpdater.adimg = "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg";
+                TextureUpdater.adimg = "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/banner2.png";
                 entity.getComponent(Material).albedoTexture = myTexture;
                 entity.addComponent(
                   new OnPointerDown(() => {
@@ -77,7 +77,7 @@ function spawnCube(x: number, y: number, z: number) {
 
   // Create texture
   const myTexture = new Texture(
-    "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/ad.jpeg"
+    "https://storageapi.fleek.co/038f3525-c411-4ef9-86e4-bc833d0c2d7f-bucket/banner2.png"
   );
 
   // Create a material
