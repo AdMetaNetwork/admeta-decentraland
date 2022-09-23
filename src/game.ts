@@ -1,4 +1,5 @@
 /// --- Set up a system ---
+import { IP_URL } from "./config";
 
 export class TextureUpdater implements ISystem {
   static cnt = 0;
@@ -14,7 +15,7 @@ export class TextureUpdater implements ISystem {
         if (!TextureUpdater.adimg) {
           executeTask(async () => {
             try {
-              let response = await fetch('http://168.119.116.180:3002/api/getmb')
+              let response = await fetch(IP_URL)
               let json = await response.json()
               log(json, '---------json')
               if (json.ad.adimg) {
