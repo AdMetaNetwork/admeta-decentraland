@@ -19,12 +19,13 @@ export class TextureUpdater implements ISystem {
               let json = await response.json()
               log(json, '---------json')
               if (json.ua.includes('Chrome')) {
-                const myTexture = new Texture(NFT_AD[randomNum(0,4)].img);
+                const idx = randomNum(0,4)
+                const myTexture = new Texture(NFT_AD[idx].img);
                 entity.getComponent(Material).albedoTexture = myTexture;
-                TextureUpdater.adimg = NFT_AD[randomNum(0,4)].img;
+                TextureUpdater.adimg = NFT_AD[idx].img;
                 entity.addComponent(
                   new OnPointerDown(() => {
-                    openExternalURL(NFT_AD[randomNum(0,4)].link);
+                    openExternalURL(NFT_AD[idx].link);
                   })
                 );
               } else {
