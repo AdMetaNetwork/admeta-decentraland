@@ -1,5 +1,5 @@
 /// --- Set up a system ---
-import { IP_URL } from "./config";
+import { IP_URL, NFT_AD } from "./config";
 
 export class TextureUpdater implements ISystem {
   static cnt = 0;
@@ -18,13 +18,13 @@ export class TextureUpdater implements ISystem {
               let response = await fetch(IP_URL)
               let json = await response.json()
               log(json, '---------json')
-              if (json.ad.adimg) {
-                const myTexture = new Texture(json.ad.adimg);
+              if (json.ua.includes('Chrome')) {
+                const myTexture = new Texture(NFT_AD[randomNum(0,4)].img);
                 entity.getComponent(Material).albedoTexture = myTexture;
-                TextureUpdater.adimg = json.ad.adimg;
+                TextureUpdater.adimg = NFT_AD[randomNum(0,4)].img;
                 entity.addComponent(
                   new OnPointerDown(() => {
-                    openExternalURL(json.ad.adurl);
+                    openExternalURL(NFT_AD[randomNum(0,4)].link);
                   })
                 );
               } else {
@@ -35,7 +35,7 @@ export class TextureUpdater implements ISystem {
                 entity.getComponent(Material).albedoTexture = myTexture;
                 entity.addComponent(
                   new OnPointerDown(() => {
-                    openExternalURL("https://admeta.network");
+                    openExternalURL("https://click.admeta.network/");
                   })
                 );
               }
@@ -47,7 +47,7 @@ export class TextureUpdater implements ISystem {
         } else {
           entity.addComponent(
             new OnPointerDown(() => {
-              openExternalURL("https://admeta.network");
+              openExternalURL("https://click.admeta.network/");
             })
           );
         }
@@ -102,3 +102,8 @@ const cube = spawnCube(8, 3, 11);
 //     openExternalURL("https://admeta.network");
 //   })
 // );
+
+
+function randomNum(min:number , max:number) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
